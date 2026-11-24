@@ -181,19 +181,15 @@ footer{text-align:center;padding:26px 18px 40px;color:var(--soft);font-size:15px
 .panel ul{margin:8px 0 0;padding-left:20px}
 .panel .price{margin-top:10px}
 @media (prefers-reduced-motion:reduce){.spot,.bokeh i,.acts .main.pulse{animation:none}.dev{transition-duration:.01s}.fin.pop{animation:none}}
-/* ===== Probador en celular: vista fija arriba + controles sobre la vista ===== */
+/* ===== Probador en celular: vista + barra de acciones fijas arriba ===== */
 @media (max-width:860px){
- .stage{position:sticky;top:62px;z-index:4;height:clamp(300px,54vh,470px);height:clamp(300px,54svh,470px)}
+ .stagewrap{position:sticky;top:62px;z-index:4;background:var(--bg);padding-bottom:10px;margin-bottom:-10px}
+ .stage{height:clamp(250px,44vh,400px);height:clamp(250px,44svh,400px)}
  .stage .hint{display:none}
- .stage .views{bottom:10px}
- .stage .views button{min-height:34px;font-size:13px;padding:3px 10px}
- .stage .acts{position:absolute;z-index:4;left:10px;right:10px;top:58px;margin:0;display:flex;flex-wrap:wrap;justify-content:center;gap:6px}
- .stage .acts button{min-height:40px;font-size:13.5px;padding:4px 12px;border-radius:999px;border:0;background:rgba(0,0,0,.45);color:#fff;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);box-shadow:none;white-space:nowrap}
- .stage .acts .main{font-size:15px;background:var(--red);box-shadow:0 3px 0 #8e2217}
- .stage .acts #bGyro{min-height:34px;font-size:12.5px}
- .stage .acts button[aria-pressed=true]{background:#1f2a22;color:#9ff5a9}
- .stage .acts button:focus-visible{outline:2px solid #fff;outline-offset:2px}
- .stage .badge{top:16px;left:16px;font-size:15px}
+ .mbar .acts{margin:8px 0 0;padding:8px;background:var(--card);border-radius:20px;border:2px dashed var(--stitch);gap:8px;box-shadow:0 12px 24px -20px rgba(0,0,0,.6)}
+ .mbar .acts button{min-height:42px;font-size:15px;border-radius:12px}
+ .mbar .acts .main{min-height:46px;font-size:16px;box-shadow:0 4px 0 #8e2217}
+ .mbar .acts #bGyro{min-height:34px;font-size:14px;border-style:dashed;color:var(--soft)}
 }
 </style>
 </head>
@@ -274,6 +270,7 @@ footer{text-align:center;padding:26px 18px 40px;color:var(--soft);font-size:15px
     <p class="lead">Elige una funda y tu dispositivo, y mira cómo le queda. Arrastra para girarla y pulsa «Meter» para guardarlo dentro.</p>
   </div>
   <div class="studio">
+    <div class="stagewrap">
     <div class="stage" id="stage" tabindex="0" role="img" aria-label="Vista 3D de la funda con el dispositivo">
       <div class="spot"></div>
       <div class="bokeh" id="bokeh"></div>
@@ -293,6 +290,8 @@ footer{text-align:center;padding:26px 18px 40px;color:var(--soft);font-size:15px
         <button type="button" data-v="zout" aria-label="Alejar">－</button>
       </div>
       <div class="fx" id="fx"></div>
+    </div>
+    <div class="mbar" id="mbar"></div>
     </div>
 
     <div class="panel">
@@ -642,7 +641,7 @@ for(let i=0;i<14;i++){const s=8+Math.random()*30;bk.insertAdjacentHTML('beforeen
 
 /* ---------- Celular: los botones de acción van sobre la vista 3D ---------- */
 (()=>{const acts=document.querySelector('.acts'),feat=$('#pFeat'),mq=matchMedia('(max-width:860px)');
- const place=()=>{if(mq.matches){if(acts.parentNode!==stage)stage.insertBefore(acts,$('#fx'))}else if(acts.parentNode===stage)feat.before(acts)};
+ const place=()=>{const bar=$('#mbar');if(mq.matches){if(acts.parentNode!==bar)bar.appendChild(acts)}else if(acts.parentNode===bar)feat.before(acts)};
  place();mq.addEventListener?mq.addEventListener('change',place):mq.addListener(place);})();
 
 /* ---------- Inicio ---------- */
